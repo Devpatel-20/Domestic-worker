@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Powered Domestic Worker Registration and Management System | Government of India</title>
+  <meta name="description"
+    content="Official Government Portal for Domestic Worker Registration, Job Allocation and Complaint Management — Ministry of Labour & Employment." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ==================== AUTH SCREEN ==================== -->
+  <div id="auth-screen" class="auth-screen">
+
+    <!-- Gov top bar -->
+    <div class="auth-govbar">
+      <span>🇮🇳 भारत सरकार | Government of India</span>
+      <span>Ministry of Labour &amp; Employment</span>
+    </div>
+
+    <div class="auth-container">
+      <!-- Left panel -->
+      <div class="auth-left">
+        <div class="auth-emblem">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="72" height="72">
+            <circle cx="40" cy="40" r="37" fill="#0a2240" stroke="#c8a84b" stroke-width="3" />
+            <circle cx="40" cy="40" r="29" fill="none" stroke="#c8a84b" stroke-width="1" />
+            <text x="40" y="44" text-anchor="middle" fill="#c8a84b" font-size="12" font-family="serif"
+              font-weight="bold">GOI</text>
+            <text x="40" y="56" text-anchor="middle" fill="#c8a84b" font-size="7" font-family="serif">MLE</text>
+          </svg>
+        </div>
+        <h1 class="auth-portal-title">AI-Powered Domestic Worker<br>Registration &amp; Management<br>System</h1>
+        <p class="auth-portal-sub">Ministry of Labour &amp; Employment<br>Digital India Initiative</p>
+        <div class="auth-badges">
+          <!-- <span class="badge-ai">🤖 AI Enabled</span> -->
+          <span class="badge-gov">Govt. of India</span>
+          <!-- <span class="badge-secure">🔒 Secure Portal</span> -->
+        </div>
+        <!-- <div class="auth-roles-info">
+          <div class="role-info-item"><span class="role-dot worker"></span><strong>Worker</strong> — Register &amp;
+            manage your profile</div>
+          <div class="role-info-item"><span class="role-dot employer"></span><strong>Employer / Govt.</strong> — Post
+            jobs &amp; file complaints</div>
+          <div class="role-info-item"><span class="role-dot admin"></span><strong>Admin</strong> — Manage registry &amp;
+            oversight</div>
+        </div> -->
+      </div>
+
+      <!-- Right panel: login/register forms -->
+      <div class="auth-right">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Login</button>
+          <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Register</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div id="form-login" class="auth-form active">
+          <h2 class="auth-form-title">Sign In to Portal</h2>
+          <p class="auth-form-sub">Enter your credentials to access the system</p>
+          <div class="form-group">
+            <label for="login-email">Email / User ID</label>
+            <input type="email" id="login-email" placeholder="e.g. user@example.com" autocomplete="username" />
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <div class="input-with-toggle">
+              <input type="password" id="login-password" placeholder="Enter your password"
+                autocomplete="current-password" />
+              <button class="pw-toggle" onclick="togglePw('login-password', this)" tabindex="-1">👁</button>
+            </div>
+          </div>
+          <div id="login-error" class="auth-error hidden"></div>
+          <button class="btn btn-primary btn-full" onclick="doLogin()">Sign In →</button>
+          <!-- <div class="auth-hint">
+            <strong>Admin login:</strong> admin@dwrms.gov.in / Admin@1234<br>
+            <span style="color:var(--text-light);font-size:0.78rem">(Predefined — cannot be registered)</span>
+          </div> -->
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div id="form-register" class="auth-form">
+          <h2 class="auth-form-title">Create Account</h2>
+          <p class="auth-form-sub">Admin accounts cannot be self-registered</p>
+          <div class="form-group">
+            <label for="reg-fullname">Full Name</label>
+            <input type="text" id="reg-fullname" placeholder="e.g. Sunita Devi" />
+          </div>
+          <div class="form-group">
+            <label for="reg-email">Email Address</label>
+            <input type="email" id="reg-email" placeholder="e.g. sunita@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="reg-role">Register As</label>
+            <select id="reg-role">
+              <option value="">-- Select Role --</option>
+              <option value="worker">Worker (Maid / Cook / Driver / Babysitter)</option>
+              <option value="employer">Employer / Government Official</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Password</label>
+            <div class="input-with-toggle">
+              <input type="password" id="reg-password" placeholder="Min. 6 characters" />
+              <button class="pw-toggle" onclick="togglePw('reg-password', this)" tabindex="-1">👁</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reg-confirm">Confirm Password</label>
+            <input type="password" id="reg-confirm" placeholder="Re-enter password" />
+          </div>
+          <div id="register-error" class="auth-error hidden"></div>
+          <div id="register-success" class="auth-success hidden"></div>
+          <button class="btn btn-primary btn-full" onclick="doRegister()">Register Account →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="auth-footer">
+      Helpline: 1800-11-1234 &nbsp;|&nbsp; support@dwrms.gov.in &nbsp;|&nbsp; Version 2.0 — March 2026
+    </div>
+  </div>
+
+  <!-- ==================== APP SHELL (shown after login) ==================== -->
+  <div id="app-shell" class="hidden">
+
+    <!-- GOV TOP BAR -->
+    <div class="gov-top-bar">
+      <div class="container">
+        <span>🇮🇳 भारत सरकार | Government of India — Ministry of Labour &amp; Employment</span>
+        <div class="user-info-bar">
+          <span id="user-display"></span>
+          <button class="btn-logout" onclick="doLogout()">⏻ Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <header class="main-header">
+      <div class="container header-inner">
+        <div class="header-logo">
+          <div class="emblem">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+              <circle cx="30" cy="30" r="28" fill="#1a3a5c" stroke="#c8a84b" stroke-width="2.5" />
+              <circle cx="30" cy="30" r="22" fill="none" stroke="#c8a84b" stroke-width="1" />
+              <text x="30" y="34" text-anchor="middle" fill="#c8a84b" font-size="9" font-family="serif"
+                font-weight="bold">GOI</text>
+              <text x="30" y="44" text-anchor="middle" fill="#c8a84b" font-size="5" font-family="serif">MLE</text>
+            </svg>
+          </div>
+          <div class="header-title">
+            <h1>AI-Powered Domestic Worker Registration &amp; Management System</h1>
+            <p>Ministry of Labour &amp; Employment — Digital India Initiative</p>
+          </div>
+        </div>
+        <div class="header-badge">
+          <span class="badge-ai">🤖 AI Enabled</span>
+          <span id="role-badge" class="badge-role"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- NAVIGATION (role-based) -->
+    <nav class="main-nav">
+      <div class="container nav-inner">
+        <!-- Worker nav items -->
+        <button class="nav-btn role-worker hidden" onclick="navigateTo('my-profile')" id="nav-my-profile">📋 My
+          Profile</button>
+        <button class="nav-btn role-worker hidden" onclick="navigateTo('my-dashboard')" id="nav-my-dashboard">👤 My
+          Dashboard</button>
+        <!-- Employer nav items -->
+        <button class="nav-btn role-employer hidden" onclick="navigateTo('jobs')" id="nav-jobs">💼 Post a Job</button>
+        <button class="nav-btn role-employer hidden" onclick="navigateTo('my-jobs')" id="nav-my-jobs">📋 My Jobs</button>
+        <button class="nav-btn role-employer hidden" onclick="navigateTo('complaints')" id="nav-complaints">📣 File
+          Complaint</button>
+        <button class="nav-btn role-employer hidden" onclick="navigateTo('all-workers')" id="nav-all-workers">👥 Worker
+          Directory</button>
+        <!-- Admin nav items -->
+        <button class="nav-btn role-admin hidden" onclick="navigateTo('admin')" id="nav-admin">🛡️ Admin Panel</button>
+        <button class="nav-btn role-admin hidden" onclick="navigateTo('registry')" id="nav-registry">📂 Worker
+          Registry</button>
+        <button class="nav-btn role-admin hidden" onclick="navigateTo('activity')" id="nav-activity">📊 AI Agent
+          Logs</button>
+      </div>
+    </nav>
+
+    <!-- PAGE CONTAINER -->
+    <main class="page-container container">
+
+      <!-- ===== WORKER: My Profile (AI-powered Registration) ===== -->
+      <section id="page-my-profile" class="page">
+        <div class="page-header">
+          <div class="page-title-row">
+            <div>
+              <h2>My Worker Profile</h2>
+              <p class="page-subtitle">Complete your profile to be eligible for job assignments. Use AI to auto-extract
+                your skills.</p>
+            </div>
+            <div class="agent-badge"><span class="agent-icon">🤖</span><span>Registration Agent <em>Active</em></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Extraction -->
+        <div class="section-card ai-card">
+          <div class="ai-card-header">
+            <span class="ai-label">AI Feature</span>
+            <h3>📝 Describe Your Work Experience</h3>
+            <p>Type in plain language — the <strong>Registration AI Agent</strong> will extract your skills and
+              experience automatically.</p>
+          </div>
+          <div class="form-group">
+            <label for="ai-text-input">Work Experience Description</label>
+            <textarea id="ai-text-input" rows="4"
+              placeholder="e.g. I have 5 years of experience as a cook and babysitter for multiple families. I can also drive and do household cleaning."></textarea>
+          </div>
+          <button class="btn btn-ai" onclick="runRegistrationAgent()" id="btn-extract">
+            <span class="btn-icon">🤖</span> Extract with AI Agent
+          </button>
+          <div id="ai-extraction-result" class="ai-result hidden"></div>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="section-card">
+          <h3>Profile Details</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="wp-name">Full Name *</label>
+              <input type="text" id="wp-name" placeholder="Your full name" />
+            </div>
+            <div class="form-group">
+              <label for="wp-phone">Phone Number *</label>
+              <input type="tel" id="wp-phone" placeholder="10-digit mobile number" />
+            </div>
+            <div class="form-group">
+              <label for="wp-experience">Years of Experience</label>
+              <input type="number" id="wp-experience" placeholder="0" min="0" max="50" />
+            </div>
+            <div class="form-group">
+              <label for="wp-location">Location / City</label>
+              <input type="text" id="wp-location" placeholder="e.g. New Delhi" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Skills (select all that apply)</label>
+            <div class="skill-checkboxes" id="reg-skills">
+              <label class="skill-check"><input type="checkbox" value="Cooking"> Cooking</label>
+              <label class="skill-check"><input type="checkbox" value="Babysitting"> Babysitting</label>
+              <label class="skill-check"><input type="checkbox" value="Driving"> Driving</label>
+              <label class="skill-check"><input type="checkbox" value="Cleaning"> Cleaning</label>
+              <label class="skill-check"><input type="checkbox" value="Elderly Care"> Elderly Care</label>
+              <label class="skill-check"><input type="checkbox" value="Gardening"> Gardening</label>
+              <label class="skill-check"><input type="checkbox" value="Carpenter"> Carpenter</label>
+              <label class="skill-check"><input type="checkbox" value="Painter"> Painter / Coloring Worker</label>
+              <label class="skill-check"><input type="checkbox" value="Tile & Flooring"> Tile / Flooring Worker</label>
+              <label class="skill-check"><input type="checkbox" value="Plumber"> Plumber</label>
+              <label class="skill-check"><input type="checkbox" value="Electrician"> Electrician</label>
+              <label class="skill-check"><input type="checkbox" value="Welder"> Welder</label>
+              <label class="skill-check"><input type="checkbox" value="Cement Worker"> Cement Worker</label>
+              <label class="skill-check"><input type="checkbox" value="Road Worker"> Road Worker</label>
+              <label class="skill-check"><input type="checkbox" value="Security Guard"> Security Guard</label>
+              <label class="skill-check"><input type="checkbox" value="Sweeper"> Sweeper</label>
+              <label class="skill-check"><input type="checkbox" value="Packers & Movers"> Packers &amp; Movers Helper</label>
+              <label class="skill-check"><input type="checkbox" value="Laundry & Ironing"> Laundry / Ironing Worker</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Current Availability</label>
+            <div class="toggle-row">
+              <label class="toggle-switch">
+                <input type="checkbox" id="wp-availability" checked/>
+                <span class="toggle-slider"></span>
+              </label>
+              <span id="avail-label">Available</span>
+            </div>
+            <small style="color:var(--text-muted);font-size:0.78rem;margin-top:4px">Rating and trust score are assigned by the system based on performance and complaints.</small>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" onclick="submitWorkerProfile()">Save Profile</button>
+            <button class="btn btn-outline" onclick="clearProfileForm()">Clear</button>
+          </div>
+          <div id="profile-success" class="alert alert-success hidden"></div>
+          <div id="profile-error" class="alert alert-error hidden"></div>
+        </div>
+      </section>
+
+      <!-- ===== WORKER: My Dashboard ===== -->
+      <section id="page-my-dashboard" class="page">
+        <div class="page-header">
+          <div class="page-title-row">
+            <div>
+              <h2>My Dashboard</h2>
+              <p class="page-subtitle">Your registered worker profile and current status.</p>
+            </div>
+          </div>
+        </div>
+        <div id="my-dashboard-content"></div>
+      </section>
+
+      <!-- ===== EMPLOYER: Worker Directory ===== -->
+      <section id="page-all-workers" class="page">
+        <div class="page-header">
+          <div class="page-title-row">
+            <div>
+              <h2>Worker Directory</h2>
+              <p class="page-subtitle">Browse registered and available domestic workers.</p>
+            </div>
+            <div class="dashboard-stats">
+              <div class="stat-box"><span id="dir-total">0</span><small>Total</small></div>
+              <div class="stat-box stat-avail"><span id="dir-avail">0</span><small>Available</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="table-toolbar">
+            <input type="text" id="dir-search" placeholder="🔍  Search by name or skill..." oninput="renderDirectory()"
+              class="search-input" />
+          </div>
+          <div class="table-wrapper">
+            <table class="gov-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Skills</th>
+                  <th>Experience</th>
+                  <th>Rating</th>
+                  <th>Trust</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="dir-tbody"></tbody>
+            </table>
+          </div>
+          <p id="dir-empty" class="empty-msg hidden">No workers found.</p>
+        </div>
+      </section>
+
+      <!-- ===== EMPLOYER + ADMIN: Job Posting ===== -->
+      <section id="page-jobs" class="page">
+        <div class="page-header">
+          <div class="page-title-row">
+            <div>
+              <h2>Job Posting &amp; Worker Assignment</h2>
+              <p class="page-subtitle">Post a job — the <strong>Job Allocator AI Agent</strong> assigns the best-matched
+                worker automatically.</p>
+            </div>
+            <div class="agent-badge"><span class="agent-icon">🤖</span><span>Job Allocator Agent <em>Active</em></span>
+            </div>
+          </div>
+        </div>
+        <div class="section-card">
+          <h3>Job Requirements</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Required Skills</label>
+              <div class="skill-checkboxes" id="job-skills">
+                <label class="skill-check"><input type="checkbox" value="Cooking"> Cooking</label>
+                <label class="skill-check"><input type="checkbox" value="Babysitting"> Babysitting</label>
+                <label class="skill-check"><input type="checkbox" value="Driving"> Driving</label>
+                <label class="skill-check"><input type="checkbox" value="Cleaning"> Cleaning</label>
+                <label class="skill-check"><input type="checkbox" value="Elderly Care"> Elderly Care</label>
+                <label class="skill-check"><input type="checkbox" value="Gardening"> Gardening</label>
+                <label class="skill-check"><input type="checkbox" value="Carpenter"> Carpenter</label>
+                <label class="skill-check"><input type="checkbox" value="Painter"> Painter / Coloring Worker</label>
+                <label class="skill-check"><input type="checkbox" value="Tile & Flooring"> Tile / Flooring Worker</label>
+                <label class="skill-check"><input type="checkbox" value="Plumber"> Plumber</label>
+                <label class="skill-check"><input type="checkbox" value="Electrician"> Electrician</label>
+                <label class="skill-check"><input type="checkbox" value="Welder"> Welder</label>
+                <label class="skill-check"><input type="checkbox" value="Cement Worker"> Cement Worker</label>
+                <label class="skill-check"><input type="checkbox" value="Road Worker"> Road Worker</label>
+                <label class="skill-check"><input type="checkbox" value="Security Guard"> Security Guard</label>
+                <label class="skill-check"><input type="checkbox" value="Sweeper"> Sweeper</label>
+                <label class="skill-check"><input type="checkbox" value="Packers & Movers"> Packers &amp; Movers Helper</label>
+                <label class="skill-check"><input type="checkbox" value="Laundry & Ironing"> Laundry / Ironing Worker</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="job-location">Job Location</label>
+              <input type="text" id="job-location" placeholder="e.g. Connaught Place, New Delhi" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="job-description">Additional Requirements (optional)</label>
+            <textarea id="job-description" rows="3" placeholder="Any extra notes..."></textarea>
+          </div>
+          <button class="btn btn-ai" onclick="runJobAllocator()" id="btn-assign">
+            <span class="btn-icon">🤖</span> Assign Best Worker (AI)
+          </button>
+        </div>
+        <div id="job-result" class="section-card assignment-result hidden">
+          <div class="ai-decision-header">
+            <span class="ai-label">AI Decision</span>
+            <h3>Worker Assignment Result</h3>
+          </div>
+          <div id="job-assigned-card"></div>
+          <div class="ai-reason-box" id="job-reason-box"></div>
+          <div class="scoring-breakdown" id="scoring-breakdown"></div>
+        </div>
+      </section>
+
+      <!-- ===== EMPLOYER: My Jobs ===== -->
+      <section id="page-my-jobs" class="page">
+        <div class="page-header">
+          <div class="page-title-row">
+            <div>
+              <h2>My Job Allocations</h2>
+              <p class="page-subtitle">View and manage workers assigned to your jobs. Release a worker when the job is done.</p>
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="renderMyJobs()">🔄 Refresh</button>
+          </div>
+        </div>
+        <div class="section-card">
+          <div id="my-jobs-list"><p class="empty-msg">Loading…</p></div>
+        </div>
+      </section>
+
+      <!-- ===== EMPLOYER: File Complaint ===== -->
+      <section id="page-complaints" class="page">
+        <div class="page-header">
+          <div class="page-title-row">
+            <div>
+              <h2>File a Complaint</h2>
+              <p class="page-subtitle">The <strong>Complaint Resolver AI Agent</strong> will classify your complaint and
+                take appropriate action.</p>
+            </div>
+            <div class="agent-badge"><span class="agent-icon">🤖</span><span>Complaint Resolver Agent
+                <em>Active</em></span></div>
+          </div>
+        </div>
+        <div class="section-card">
+          <h3>Complaint Details</h3>
+          <div class="form-group">
+            <label for="complaint-worker">Select Worker</label>
+            <select id="complaint-worker">
+              <option value="">-- Select Worker --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="complaint-text">Complaint Description *</label>
+            <textarea id="complaint-text" rows="5"
+              placeholder="Describe the issue in detail. e.g. The worker took advance payment and never showed up for work."></textarea>
+          </div>
+          <button class="btn btn-ai" onclick="runComplaintAgent()" id="btn-complaint">
+            <span class="btn-icon">🤖</span> Submit &amp; Analyse with AI Agent
+          </button>
+        </div>
+        <div id="complaint-result" class="section-card complaint-result hidden">
+          <div class="ai-decision-header">
+            <span class="ai-label">AI Decision</span>
+            <h3>Complaint Analysis Result</h3>
+          </div>
+          <div id="complaint-output"></div>
+          <div id="complaint-action-note" class="ai-reason-box"></div>
+        </div>
+        <div class="section-card">
+          <h3>My Complaint History</h3>
+          <div id="complaint-log">
+            <p class="empty-msg">No complaints filed yet.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ADMIN: Admin Panel ===== -->
+      <section id="page-admin" class="page">
+        <div class="page-header">
+          <div class="page-title-row">
+            <div>
+              <h2>Admin Panel</h2>
+              <p class="page-subtitle">Full system oversight — flag/unflag workers, view stats and manage the registry.
+              </p>
+            </div>
+            <div class="agent-badge agent-badge-admin">🛡️ Admin Access — Restricted</div>
+          </div>
+        </div>
+        <div class="admin-stats-row" id="admin-stats-row"></div>
+        <div class="section-card">
+          <h3>Worker Management</h3>
+          <div class="table-toolbar">
+            <input type="text" id="admin-search" placeholder="🔍  Search workers..." oninput="renderAdmin()"
+              class="search-input" />
+            <button class="btn btn-sm btn-outline" onclick="renderAdmin()">🔄 Refresh</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="gov-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Skills</th>
+                  <th>Exp</th>
+                  <th>Rating</th>
+                  <th>Trust</th>
+                  <th>Available</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ADMIN: Worker Registry ===== -->
+      <section id="page-registry" class="page">
+        <div class="page-header">
+          <div class="page-title-row">
+            <div>
+              <h2>Worker Registry</h2>
+              <p class="page-subtitle">Complete registry of all registered domestic workers.</p>
+            </div>
+            <div class="dashboard-stats">
+              <div class="stat-box"><span id="reg-stat-total">0</span><small>Total</small></div>
+              <div class="stat-box stat-avail"><span id="reg-stat-avail">0</span><small>Available</small></div>
+              <div class="stat-box stat-flagged"><span id="reg-stat-flagged">0</span><small>Flagged</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="table-toolbar">
+            <input type="text" id="registry-search" placeholder="🔍  Search..." oninput="renderRegistry()"
+              class="search-input" />
+            <div class="filter-btns">
+              <button class="filter-btn active" onclick="setRegistryFilter('all', this)">All</button>
+              <button class="filter-btn" onclick="setRegistryFilter('available', this)">Available</button>
+              <button class="filter-btn" onclick="setRegistryFilter('flagged', this)">Flagged</button>
+            </div>
+          </div>
+          <div class="table-wrapper">
+            <table class="gov-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Skills</th>
+                  <th>Exp</th>
+                  <th>Rating</th>
+                  <th>Trust</th>
+                  <th>Location</th>
+                  <th>Available</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="registry-tbody"></tbody>
+            </table>
+          </div>
+          <p id="registry-empty" class="empty-msg hidden">No workers found.</p>
+        </div>
+      </section>
+
+      <!-- ===== ADMIN: AI Agent Logs ===== -->
+      <section id="page-activity" class="page">
+        <div class="page-header">
+          <div class="page-title-row">
+            <div>
+              <h2>AI Agent Activity Log</h2>
+              <p class="page-subtitle">Real-time log of all actions taken by AI agents across the system.</p>
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="renderActivityLog()">🔄 Refresh</button>
+          </div>
+        </div>
+        <div class="section-card">
+          <div id="agent-log" class="agent-log">
+            <p class="empty-msg">No agent activity yet.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="gov-footer">
+      <div class="container footer-inner">
+        <div><strong>Ministry of Labour &amp; Employment</strong><br>Government of India — Digital India Initiative
+        </div>
+        <div class="footer-links">
+          <span>Helpline: 1800-11-1234</span><span>|</span><span>support@dwrms.gov.in</span>
+        </div>
+        <div class="footer-right">
+          <span>AI-Powered System v2.0</span><br><small>March 2026 — RBAC Enabled</small>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /app-shell -->
+
+  <script src="app.js?v=3"></script>
+</body>
+
+</html>
